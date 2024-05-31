@@ -20,8 +20,6 @@ const WatchList = () => {
     const parsedList = JSON.parse(storedArray) || [];
     setMyList(parsedList);
     setFilteredMovies(parsedList);
-    console.log(parsedList)
-
   };
 
   const removeFromWatchlist = (movieId) => {
@@ -40,6 +38,11 @@ const WatchList = () => {
     setFilteredMovies(filtered);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem(`myWatchlist_${userEmail}`);
+    return <Navigate to="/signup" />;
+  };
+
   return (
     <div className="watchlist-container">
       <div className="watchlist-heading">
@@ -51,33 +54,33 @@ const WatchList = () => {
           onChange={handleSearch}
           className="search-input"
         />
+        <button onClick={handleLogout}>Logout</button>
       </div>
 
       <div className="watchlist-content">
-        {filteredMovies.length >= 0 ? (
+        {filteredMovies.length > 0 ? (
           <div className="movie-list">
             {filteredMovies.map((movie) => (
               <div key={movie.imdbID} className="movie-card">
+                {movie.Poster !== 'N/A' ? (
+                  <img className="movie-image" src={movie.Poster} alt={movie.Title} />
+                ) : (
+                  <span className="no-poster">No Poster Available</span>
+                )}
                 <div className="movie-info">
                   <h3 className="movie-title">{movie.Title}</h3>
-                  <p className="movie-year">Release Year: {movie.Year}</p>
-                  <div className="movie-details">
-                    {movie.Poster !== 'N/A' ? (
-                      <img className="movie-image" src={movie.Poster} alt={movie.Title} />
-                    ) : (
-                      <span className="no-poster">No Poster Available</span>
-                    )}
-                    <div>
-                      <p className="movie-rating">
-                        <span className="star">&#9733;</span>
-                        {movie.imdbRating}
-                      </p>
-                      <p className="movie-plot">{movie.Plot}</p>
-                      <button className="remove-button" onClick={() => removeFromWatchlist(movie.imdbID)}>
-                        Remove
-                      </button>
-                    </div>
-                  </div>
+                  <p className="movie-rating">
+                    <span className="star">&#9733;</span>
+                    {movie.imdbRating}
+                  </p>
+                  <p className="movie-details">
+                    <span>{movie.Runtime}</span>
+                    <span>{movie.Genre}</span>
+                  </p>
+                  <p className="movie-plot">{movie.Plot}</p>
+                  <button className="remove-button" onClick={() => removeFromWatchlist(movie.imdbID)}>
+                    Remove
+                  </button>
                 </div>
               </div>
             ))}

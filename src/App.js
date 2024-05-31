@@ -14,6 +14,12 @@ function App() {
   const userEmail = useSelector(state => state.auth.userEmail); // Get user's email
   const dispatch = useDispatch();
 
+  const addToWatchlist = (movie) => {
+    const updatedList = [...myList, movie];
+    localStorage.setItem(`myWatchlist_${userEmail}`, JSON.stringify(updatedList));
+    setMyList(updatedList);
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       fetchMyList(userEmail);
@@ -28,16 +34,9 @@ function App() {
     setMyList(parsedList);
   };
 
-  const addToWatchlist = (movie) => {
-    const updatedList = [...myList, movie];
-    localStorage.setItem(`myWatchlist_${userEmail}`, JSON.stringify(updatedList));
-    setMyList(updatedList);
-  };
-
   const handleLogout = () => {
-    localStorage.removeItem(`myWatchlist_${userEmail}`);
     dispatch(authAction.logout());
-    return <Navigate to="/" />;
+    return <Navigate to="/signup" />;
   };
 
   return (

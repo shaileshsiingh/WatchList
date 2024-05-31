@@ -14,7 +14,6 @@ const MovieSearch = ({ addToWatchlist }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data)
       if (data.Search) {
         setMovieList(data.Search);
         setErrorMessage('');
@@ -62,7 +61,6 @@ const MovieSearch = ({ addToWatchlist }) => {
                 <div className="movie-info">
                   <h3 className="movie-title">{movie.Title}</h3>
                   <p className="movie-year">Year: {movie.Year}</p>
-                  
                   <button onClick={() => addToWatchlist(movie)} className="add-button">
                     Add to Watchlist
                   </button>
