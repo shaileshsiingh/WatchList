@@ -1,15 +1,11 @@
-import React, {  useState } from 'react';
-import { Link } from 'react-router-dom';
+// MovieSearch.js
+import React, { useState } from 'react';
 import './MovieSearch.css';
 
-const MovieSearch = () => {
+const MovieSearch = ({ addToWatchlist }) => {
   const [searchInput, setSearchInput] = useState('');
   const [movieList, setMovieList] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-
-
- 
-
 
   const search = async () => {
     try {
@@ -18,11 +14,12 @@ const MovieSearch = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
+      console.log(data)
       if (data.Search) {
         setMovieList(data.Search);
         setErrorMessage('');
       } else {
-        setErrorMessage('Unable to find what you\'re looking for. Please try another search.');
+        setErrorMessage("Unable to find what you're looking for. Please try another search.");
         setMovieList([]);
       }
     } catch (error) {
@@ -30,39 +27,17 @@ const MovieSearch = () => {
     }
   };
 
-  const addToWatchlist = async (id) => {
-    try {
-      const response = await fetch(`https://www.omdbapi.com/?apikey=cabdf031&i=${id}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      addMovie(data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  const addMovie = (data) => {
-    if (!localStorage.getItem('myWatchlist')) {
-      localStorage.setItem('myWatchlist', JSON.stringify([data]));
-    } else {
-      const existingWatchlist = JSON.parse(localStorage.getItem('myWatchlist'));
-      if (!existingWatchlist.some(movie => movie.imdbID === data.imdbID)) {
-        localStorage.setItem('myWatchlist', JSON.stringify([...existingWatchlist, data]));
-      }
-    }
-  };
-
   return (
     <div className="container">
-      
-
       <div className="main-content">
         <header className="my-8">
-          <div className='heading'>
+          <div className="heading">
             <h1 className="title">Welcome to WatchLists</h1>
-            <p>Browse your favourite movies and click on 'Add to WatchList' to add it on your List, <br></br> and you can see the details of the movies in your List.</p>
+            <p>
+              Browse your favourite movies and click on 'Add to WatchList' to add it on your List,
+              <br />
+              and you can see the details of the movies in your List.
+            </p>
           </div>
           <div className="search-container">
             <input
@@ -72,7 +47,9 @@ const MovieSearch = () => {
               onChange={(e) => setSearchInput(e.target.value)}
               className="search-input"
             />
-            <button onClick={search} className="search-button">Search</button>
+            <button onClick={search} className="search-button">
+              Search
+            </button>
           </div>
         </header>
 
@@ -84,17 +61,11 @@ const MovieSearch = () => {
                 <img src={movie.Poster} alt={movie.Title} className="movie-poster" />
                 <div className="movie-info">
                   <h3 className="movie-title">{movie.Title}</h3>
-                  
-                
                   <p className="movie-year">Year: {movie.Year}</p>
-
-
                   
-                 
-
-
-                  
-                  <button onClick={() => addToWatchlist(movie.imdbID)} className="add-button">Add to Watchlist</button>
+                  <button onClick={() => addToWatchlist(movie)} className="add-button">
+                    Add to Watchlist
+                  </button>
                 </div>
               </div>
             ))}

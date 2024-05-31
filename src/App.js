@@ -1,5 +1,6 @@
+// App.js
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import MovieSearch from './components/Pages/Home/MovieSearch';
 import WatchList from './components/Pages/Home/WatchList';
 import { authAction } from './components/storeRedux/authReducer';
@@ -15,23 +16,28 @@ function App() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      // Fetch user-specific data (e.g., myList) when authenticated
       fetchMyList(userEmail);
     } else {
-      // Clear myList when not authenticated
       setMyList([]);
     }
   }, [isAuthenticated, userEmail]);
 
   const fetchMyList = (email) => {
-    // Retrieve user-specific data (e.g., myList) from localStorage
-    const storedArray = localStorage.getItem(`myList_${email}`);
+    const storedArray = localStorage.getItem(`myWatchlist_${email}`);
     const parsedList = JSON.parse(storedArray) || [];
     setMyList(parsedList);
   };
 
+  const addToWatchlist = (movie) => {
+    const updatedList = [...myList, movie];
+    localStorage.setItem(`myWatchlist_${userEmail}`, JSON.stringify(updatedList));
+    setMyList(updatedList);
+  };
+
   const handleLogout = () => {
+    localStorage.removeItem(`myWatchlist_${userEmail}`);
     dispatch(authAction.logout());
+    return <Navigate to="/" />;
   };
 
   return (
@@ -63,7 +69,7 @@ function App() {
           <Routes>
             {isAuthenticated ? (
               <>
-                <Route path="/" element={<MovieSearch />} />
+                <Route path="/" element={<MovieSearch addToWatchlist={addToWatchlist} />} />
                 <Route path="/watchlist" element={<WatchList />} />
               </>
             ) : (
