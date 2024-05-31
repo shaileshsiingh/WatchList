@@ -9,7 +9,7 @@ const MovieSearch = ({ addToWatchlist }) => {
 
   const search = async () => {
     try {
-      const response = await fetch(`https://www.omdbapi.com/?apikey=cabdf031&s=${searchInput}`);
+      const response = await fetch(`http://www.omdbapi.com/?apikey=cabdf031&s=${searchInput}`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

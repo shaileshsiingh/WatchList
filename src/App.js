@@ -1,6 +1,6 @@
 // App.js
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
 import MovieSearch from './components/Pages/Home/MovieSearch';
 import WatchList from './components/Pages/Home/WatchList';
 import { authAction } from './components/storeRedux/authReducer';
@@ -36,7 +36,7 @@ function App() {
 
   const handleLogout = () => {
     dispatch(authAction.logout());
-    return <Navigate to="/signup" />;
+    return <Navigate to="/" />;
   };
 
   return (
