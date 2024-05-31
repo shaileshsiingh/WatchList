@@ -9,7 +9,7 @@ const MovieSearch = ({ addToWatchlist }) => {
 
   const search = async () => {
     try {
-      const response = await fetch(`http://www.omdbapi.com/?apikey=cabdf031&s=${searchInput}`);
+      const response = await fetch(`https://www.omdbapi.com/?apikey=cabdf031&s=${searchInput}`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -62,6 +62,7 @@ const MovieSearch = ({ addToWatchlist }) => {
                 <div className="movie-info">
                   <h3 className="movie-title">{movie.Title}</h3>
                   <p className="movie-year">Year: {movie.Year}</p>
+
                   <button onClick={() => addToWatchlist(movie)} className="add-button">
                     Add to Watchlist
                   </button>
