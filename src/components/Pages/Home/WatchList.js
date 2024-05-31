@@ -38,9 +38,7 @@ const WatchList = () => {
     setFilteredMovies(filtered);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem(`myWatchlist_${userEmail}`);
-  };
+ 
 
   return (
     <div className="watchlist-container">
@@ -53,7 +51,6 @@ const WatchList = () => {
           onChange={handleSearch}
           className="search-input"
         />
-        <button onClick={handleLogout}>Logout</button>
       </div>
 
       <div className="watchlist-content">

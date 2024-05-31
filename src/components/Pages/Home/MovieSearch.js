@@ -14,6 +14,7 @@ const MovieSearch = ({ addToWatchlist }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
+      console.log(data)
       if (data.Search) {
         setMovieList(data.Search);
         setErrorMessage('');
