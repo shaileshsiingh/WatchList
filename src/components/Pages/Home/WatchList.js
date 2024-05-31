@@ -40,7 +40,6 @@ const WatchList = () => {
 
   const handleLogout = () => {
     localStorage.removeItem(`myWatchlist_${userEmail}`);
-    return <Navigate to="/signup" />;
   };
 
   return (
