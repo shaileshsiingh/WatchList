@@ -3,7 +3,7 @@
 
 import classes from './Signup.module.css';
 import React, { Fragment, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authAction } from '../../storeRedux/authReducer';
 
@@ -78,24 +78,20 @@ const SignUp = () => {
                 <form onSubmit={submitHandler}>
                     <div className={classes.control}>
                         <label htmlFor='email'>Your Email</label>
-                        <input type='text' required onChange={emailChangeHandler} value={email} />
+                        <input type='text' onChange={emailChangeHandler} value={email} />
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='password'>Your Password</label>
-                        <input type='password' required onChange={passwordChangeHandler} value={password} />
+                        <input type='password' onChange={passwordChangeHandler} value={password} />
                     </div>
                     {!isLogin && (
                         <div className={classes.control}>
                             <label htmlFor='confpassword'>Confirm Password</label>
-                            <input type='password' required onChange={confPassChangeHandler} value={confPass} />
+                            <input type='password' onChange={confPassChangeHandler} value={confPass} />
                         </div>
                     )}
                     <div className={classes.actions}>
-                        {isLogin && (
-                            <Link className={classes.forget} style={{ marginBottom: '5px', textDecoration: 'none' }} to='/forgotPassword'>
-                                Forgot Password ?
-                            </Link>
-                        )}
+                        
                         <button type='submit' style={{ cursor: isCursorAllow ? 'not-allowed' : 'pointer' }}>
                             {isLogin ? 'Login' : 'Create Account'}
                         </button>
