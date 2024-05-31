@@ -1,4 +1,3 @@
-// WatchList.js
 import React, { useEffect, useState } from 'react';
 import './WatchList.css';
 import { useSelector } from 'react-redux';
@@ -17,7 +16,9 @@ const WatchList = () => {
 
   const fetchWatchlist = (email) => {
     const storedArray = localStorage.getItem(`myWatchlist_${email}`);
+    console.log(storedArray); // Check if data is fetched correctly
     const parsedList = JSON.parse(storedArray) || [];
+    console.log(parsedList); // Check if parsed data contains all details
     setMyList(parsedList);
     setFilteredMovies(parsedList);
   };
@@ -37,8 +38,6 @@ const WatchList = () => {
     );
     setFilteredMovies(filtered);
   };
-
- 
 
   return (
     <div className="watchlist-container">

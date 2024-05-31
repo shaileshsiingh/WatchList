@@ -1,6 +1,6 @@
 // App.js
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import MovieSearch from './components/Pages/Home/MovieSearch';
 import WatchList from './components/Pages/Home/WatchList';
 import { authAction } from './components/storeRedux/authReducer';
@@ -16,6 +16,8 @@ function App() {
 
   const addToWatchlist = (movie) => {
     const updatedList = [...myList, movie];
+    console.log(updatedList)
+
     localStorage.setItem(`myWatchlist_${userEmail}`, JSON.stringify(updatedList));
     setMyList(updatedList);
   };
@@ -36,7 +38,7 @@ function App() {
 
   const handleLogout = () => {
     dispatch(authAction.logout());
-    return <Navigate to="/" />;
+    return null;
   };
 
   return (
@@ -65,16 +67,19 @@ function App() {
           </div>
         )}
         <div className="main-content">
-          <Routes>
-            {isAuthenticated ? (
-              <>
-                <Route path="/" element={<MovieSearch addToWatchlist={addToWatchlist} />} />
-                <Route path="/watchlist" element={<WatchList />} />
-              </>
-            ) : (
-              <Route path="/" element={<SignUp />} />
-            )}
-          </Routes>
+        <Routes>
+  {isAuthenticated ? (
+    <>
+      <Route path="/" element={<MovieSearch addToWatchlist={addToWatchlist} />} />
+      <Route path="/watchlist" element={<WatchList />} />
+    </>
+  ) : (
+    <>
+      <Route path="/" element={<SignUp />} />
+    </>
+  )}
+</Routes>
+
         </div>
       </div>
     </Router>

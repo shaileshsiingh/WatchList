@@ -3,8 +3,7 @@
 }
 
 .watchlist-content {
-  flex: 1;
-  padding: 5vw;
+  padding: 10px;
 }
 
 .movie-list {
@@ -14,10 +13,8 @@
 
 .movie-card {
   border: 1px solid #ccc;
-  border-radius: 5px;
-  margin: 5px;
-  width: 40%; /* Adjust width */
-  max-width: 200px; /* Smaller width on smaller screens */
+  border-radius: 4px;
+  margin: 0.5rem;
 }
 
 .movie-image {
