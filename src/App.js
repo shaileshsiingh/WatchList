@@ -76,7 +76,7 @@ function App() {
 ) : (
   <>
     <Route path="/" element={<SignUp />} />
-    <Route path="*" element={<Navigate to="/" />} /> {/* Redirect to sign-up page */}
+    <Route path="*" element={<Navigate to="/" />} />
   </>
 )}
 
