@@ -1,6 +1,6 @@
 // App.js
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {  Routes, Route, Link, Navigate } from 'react-router-dom';
 import MovieSearch from './components/Pages/Home/MovieSearch';
 import WatchList from './components/Pages/Home/WatchList';
 import { authAction } from './components/storeRedux/authReducer';
@@ -42,7 +42,6 @@ function App() {
   };
 
   return (
-    <Router>
       <div className="app-container">
         {isAuthenticated && (
           <div className="sidebar">
@@ -68,21 +67,23 @@ function App() {
         )}
         <div className="main-content">
         <Routes>
-  {isAuthenticated ? (
-    <>
-      <Route path="/" element={<MovieSearch addToWatchlist={addToWatchlist} />} />
-      <Route path="/watchlist" element={<WatchList />} />
-    </>
-  ) : (
-    <>
-      <Route path="/" element={<SignUp />} />
-    </>
-  )}
+        
+{isAuthenticated ? (
+  <>
+    <Route path="/" element={<MovieSearch addToWatchlist={addToWatchlist} />} />
+    <Route path="/watchlist" element={<WatchList />} />
+  </>
+) : (
+  <>
+    <Route path="/" element={<SignUp />} />
+    <Route path="*" element={<Navigate to="/" />} /> {/* Redirect to sign-up page */}
+  </>
+)}
+
 </Routes>
 
         </div>
       </div>
-    </Router>
   );
 }
 
