@@ -14,14 +14,9 @@ const WatchList = () => {
     }
   }, [userEmail]);
 
-
- 
-
   const fetchWatchlist = (email) => {
     const storedArray = localStorage.getItem(`myWatchlist_${email}`);
-    console.log(storedArray); // Check if data is fetched correctly
     const parsedList = JSON.parse(storedArray) || [];
-    console.log(parsedList); // Check if parsed data contains all details
     setMyList(parsedList);
     setFilteredMovies(parsedList);
   };
@@ -31,6 +26,7 @@ const WatchList = () => {
     localStorage.setItem(`myWatchlist_${userEmail}`, JSON.stringify(updatedList));
     setMyList(updatedList);
     setFilteredMovies(updatedList);
+    window.location.reload(); // Refresh the page
   };
 
   const handleSearch = (e) => {
@@ -75,7 +71,6 @@ const WatchList = () => {
                     <span>{movie.Runtime}</span>
                     <span>{movie.Genre}</span>
                     <span>{movie.Year}</span>
-
                   </p>
                   <p className="movie-plot">{movie.Plot}</p>
                   <button className="remove-button" onClick={() => removeFromWatchlist(movie.imdbID)}>
@@ -99,4 +94,3 @@ const WatchList = () => {
 };
 
 export default WatchList;
-
