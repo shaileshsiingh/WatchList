@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MovieSearch.css';
 
 const MovieSearch = ({ addToWatchlist }) => {
@@ -7,16 +7,46 @@ const MovieSearch = ({ addToWatchlist }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const search = async () => {
+  // Function to fetch popular movies as default
+  const fetchPopularMovies = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://www.omdbapi.com/?apikey=6247d0f5&t=${searchInput}`);
+      const response = await fetch('https://www.omdbapi.com/?apikey=6247d0f5&s=popular');
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
       if (data.Response === 'True') {
-        setMovieData(data);
+        setMovieData(data.Search);
+        setErrorMessage('');
+      } else {
+        setErrorMessage("Unable to fetch popular movies. Please try again later.");
+        setMovieData(null);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setErrorMessage('An error occurred while fetching popular movies. Please try again later.');
+      setMovieData(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPopularMovies(); // Fetch popular movies on component mount
+  }, []);
+
+  // Function to search for movies by title
+  const search = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`https://www.omdbapi.com/?apikey=6247d0f5&s=${searchInput}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.Response === 'True') {
+        setMovieData(data.Search);
         setErrorMessage('');
       } else {
         setErrorMessage("Unable to find what you're looking for. Please try another search.");
@@ -33,7 +63,7 @@ const MovieSearch = ({ addToWatchlist }) => {
 
   return (
     <div className="container">
-      <div >
+      <div>
         <header className="header">
           <div className="heading">
             <h1 className="title">Welcome to WatchLists</h1>
@@ -60,15 +90,17 @@ const MovieSearch = ({ addToWatchlist }) => {
         <main>
           {errorMessage && <div className="error">{errorMessage}</div>}
           {movieData && (
-            <div className="movie-details">
-              <img src={movieData.Poster} alt={movieData.Title} className="movie-poster" />
-              <div className="movie-info">
-                <h3 className="movie-title">{movieData.Title}</h3>
-                <p className="movie-year">Year: {movieData.Year}</p>
-                <p className="movie-runtime">Runtime: {movieData.Runtime}</p>
-                <p className="movie-genre">Genre: {movieData.Genre}</p>
-                <button className="add-button" onClick={() => addToWatchlist(movieData)}>+</button>
-              </div>
+            <div className="movie-list">
+              {movieData.map((movie) => (
+                <div key={movie.imdbID} className="movie-card">
+                  <img src={movie.Poster} alt={movie.Title} className="movie-poster" />
+                  <div className="movie-info">
+                    <h3 className="movie-title">{movie.Title}</h3>
+                    <p className="movie-year">Year: {movie.Year}</p>
+                    <button className="add-button" onClick={() => addToWatchlist(movie)}>+</button>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </main>
