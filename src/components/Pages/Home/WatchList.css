@@ -1,3 +1,4 @@
+/* WatchList.css */
 .watchlist-container {
   margin: 1vw;
 }
@@ -28,7 +29,6 @@
 
 .movie-title {
   font-size: 1.2rem;
-  margin-bottom: 5px;
 }
 
 .movie-rating {
@@ -37,11 +37,11 @@
 
 .movie-details {
   margin-top: 5px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .movie-plot {
-  margin-top: 10px;
+  font-size: small;
 }
 
 .remove-button {
@@ -76,7 +76,7 @@
   border: 1px solid rgb(12, 29, 85);
   border-radius: 10px;
   padding: 20px;
-  margin: 1vw;
+  margin: 2vw;
   color: #74521b;
 }
 
@@ -87,7 +87,7 @@
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 360px) {
   .movie-card {
     width: 100%; /* Full width on smaller screens */
     max-width: none; /* Remove max-width */

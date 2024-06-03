@@ -122,3 +122,39 @@
 .add-button:hover {
   background-color: #0056b3;
 }
+
+.movie-details {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 0.5rem;
+  width: calc(20% - 1rem); /* Adjust width to fit five cards per row */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+  animation: slideIn 0.5s ease-in-out;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 992px) {
+  .movie-card {
+    width: calc(25% - 1rem); /* Adjust width for smaller screens */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .movie-card {
+    width: calc(33.33% - 1rem); /* Adjust width for smaller screens */
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .movie-card {
+    width: calc(50% - 1rem); /* Adjust width for smaller screens */
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .movie-card {
+    width: 100%; /* Full width on smaller screens */
+    max-width: none; /* Remove max-width */
+  }
+}
