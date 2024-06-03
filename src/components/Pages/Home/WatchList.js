@@ -69,9 +69,7 @@ const WatchList = () => {
                   </p>
                   <p className="movie-details">
                     <span>{movie.Runtime}</span>
--
-                    <span>{movie.Genre}</span>,
-
+                    <span>{movie.Genre}</span>
                     <span>{movie.Year}</span>
                   </p>
                   <p className="movie-plot">{movie.Plot}</p>

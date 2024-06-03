@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MovieSearch.css';
 
 const MovieSearch = ({ addToWatchlist }) => {
@@ -6,8 +6,35 @@ const MovieSearch = ({ addToWatchlist }) => {
   const [movieData, setMovieData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isDefaultSearch, setIsDefaultSearch] = useState(true);
+  const [popularMovies, setPopularMovies] = useState([]);
 
-  // Function to search for movies by title
+  // Fetch popular movies when the component mounts
+  useEffect(() => {
+    const fetchPopularMovies = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('https://www.omdbapi.com/?apikey=6247d0f5&s=batman');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.Response === 'True') {
+          setPopularMovies(data.Search || []);
+          setErrorMessage('');
+        } else {
+          setErrorMessage("Unable to find popular movies.");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setErrorMessage('An error occurred while fetching popular movies.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPopularMovies();
+  }, []);
+
   const search = async () => {
     setIsLoading(true);
     try {
@@ -19,6 +46,7 @@ const MovieSearch = ({ addToWatchlist }) => {
       if (data.Response === 'True') {
         setMovieData(data);
         setErrorMessage('');
+        setIsDefaultSearch(false); // Switch to search mode
       } else {
         setErrorMessage("Unable to find what you're looking for. Please try another search.");
         setMovieData(null);
@@ -59,7 +87,24 @@ const MovieSearch = ({ addToWatchlist }) => {
 
       <main>
         {errorMessage && <div className="error">{errorMessage}</div>}
-        {movieData && (
+        {isDefaultSearch && (
+          <div className="default-search">
+            <h2>Popular Movies</h2>
+            <div className="movie-list">
+              {popularMovies.map((movie) => (
+                <div key={movie.imdbID} className="movie-card">
+                  <img src={movie.Poster} alt={movie.Title} className="movie-poster" />
+                  <div className="movie-info">
+                    <h3 className="movie-title">{movie.Title}</h3>
+                    <p className="movie-year">Year: {movie.Year}</p>
+                    <button className="add-button" onClick={() => addToWatchlist(movie)}>+</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {!isDefaultSearch && movieData && (
           <div className="movie-details">
             <img src={movieData.Poster} alt={movieData.Title} className="movie-poster" />
             <div className="movie-info">
