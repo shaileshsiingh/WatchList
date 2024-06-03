@@ -92,6 +92,7 @@
 
 .movie-title {
   font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
 .movie-year {
