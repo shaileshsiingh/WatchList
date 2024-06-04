@@ -23,9 +23,7 @@
   height: auto;
 }
 
-.movie-info {
-  padding: 5px;
-}
+
 
 .movie-title {
   font-size: 1.2rem;
@@ -37,7 +35,8 @@
 
 .movie-details {
   margin-top: 5px;
-  font-size: 0.8rem;
+width: auto;  
+padding: 10px;
 }
 
 .movie-plot {
