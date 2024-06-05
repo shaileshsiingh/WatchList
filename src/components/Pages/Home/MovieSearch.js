@@ -6,47 +6,15 @@ const MovieSearch = ({ addToWatchlist }) => {
   const [movieData, setMovieData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isDefaultSearch, setIsDefaultSearch] = useState(true);
-  const [popularMovies, setPopularMovies] = useState([]);
-
-  // Fetch popular movies when the component mounts
-  useEffect(() => {
-    const fetchPopularMovies = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch('https://www.omdbapi.com/?apikey=6247d0f5&s=batman');
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        if (data.Response === 'True') {
-          setPopularMovies(data.Search || []);
-          setErrorMessage('');
-        } else {
-          setErrorMessage("Unable to find popular movies.");
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        setErrorMessage('An error occurred while fetching popular movies.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchPopularMovies();
-  }, []);
 
   const search = async () => {
     setIsLoading(true);
     try {
       const response = await fetch(`https://www.omdbapi.com/?apikey=6247d0f5&t=${searchInput}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
       const data = await response.json();
-      if (data.Response === 'True') {
+      if (response.ok && data.Response === 'True') {
         setMovieData(data);
         setErrorMessage('');
-        setIsDefaultSearch(false); // Switch to search mode
       } else {
         setErrorMessage("Unable to find what you're looking for. Please try another search.");
         setMovieData(null);
@@ -66,9 +34,9 @@ const MovieSearch = ({ addToWatchlist }) => {
         <div className="heading">
           <h1 className="title">Welcome to WatchLists</h1>
           <p>
-            Browse your favorite movies and click on '+' to add it to your List,
+            Browse your favorite movies and click on '+' to add them to your list,
             <br />
-            and you can see the details of the movies in your List.
+            and you can see the details of the movies in your list.
           </p>
         </div>
         <div className="search-container">
@@ -85,27 +53,10 @@ const MovieSearch = ({ addToWatchlist }) => {
         </div>
       </header>
 
-      <main>
+      <main className="main">
         {errorMessage && <div className="error">{errorMessage}</div>}
-        {isDefaultSearch && (
-          <div className="default-search">
-            <h2>Popular Movies</h2>
-            <div className="movie-list">
-              {popularMovies.map((movie) => (
-                <div key={movie.imdbID} className="movie-card">
-                  <img src={movie.Poster} alt={movie.Title} className="movie-poster" />
-                  <div className="movie-info">
-                    <h3 className="movie-title">{movie.Title}</h3>
-                    <p className="movie-year">Year: {movie.Year}</p>
-                    <button className="add-button" onClick={() => addToWatchlist(movie)}>+</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        {!isDefaultSearch && movieData && (
-          <div className="movie-details">
+        {movieData && (
+          <div className="movie-card">
             <img src={movieData.Poster} alt={movieData.Title} className="movie-poster" />
             <div className="movie-info">
               <h3 className="movie-title">{movieData.Title}</h3>
