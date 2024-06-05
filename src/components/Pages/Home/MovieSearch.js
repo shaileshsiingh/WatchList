@@ -4,8 +4,33 @@ import './MovieSearch.css';
 const MovieSearch = ({ addToWatchlist }) => {
   const [searchInput, setSearchInput] = useState('');
   const [movieData, setMovieData] = useState(null);
+  const [popularMovies, setPopularMovies] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Fetch popular movies when the component mounts
+    fetchPopularMovies();
+  }, []);
+
+  const fetchPopularMovies = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`https://www.omdbapi.com/?apikey=6247d0f5&s=batman`);
+      const data = await response.json();
+      if (response.ok && data.Response === 'True') {
+        setPopularMovies(data.Search);
+        setErrorMessage('');
+      } else {
+        setErrorMessage("Unable to load popular movies. Please try again later.");
+      }
+    } catch (error) {
+      console.error('Error fetching popular movies:', error);
+      setErrorMessage('An error occurred while fetching popular movies. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const search = async () => {
     setIsLoading(true);
@@ -20,7 +45,7 @@ const MovieSearch = ({ addToWatchlist }) => {
         setMovieData(null);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error searching for movie:', error);
       setErrorMessage('An error occurred while searching. Please try again later.');
       setMovieData(null);
     } finally {
@@ -34,9 +59,7 @@ const MovieSearch = ({ addToWatchlist }) => {
         <div className="heading">
           <h1 className="title">Welcome to WatchLists</h1>
           <p>
-            Browse your favorite movies and click on '+' to add them to your list,
-            <br />
-            and you can see the details of the movies in your list.
+            Browse your favorite movies and click on '+' to add them to your list.
           </p>
         </div>
         <div className="search-container">
@@ -55,14 +78,57 @@ const MovieSearch = ({ addToWatchlist }) => {
 
       <main className="main">
         {errorMessage && <div className="error">{errorMessage}</div>}
+        
+        {!searchInput && (
+          <>
+            <h2>Popular Movies</h2>
+            <div className="movie-list">
+              {isLoading ? (
+                <p>Loading popular movies...</p>
+              ) : (
+                popularMovies.map((movie) => (
+                  <div key={movie.imdbID} className="movie-card">
+                    <img src={movie.Poster} alt={movie.Title} className="movie-poster" />
+                    <div className="movie-info">
+                      <h3 className="movie-title">{movie.Title}</h3>
+                      <div className="movie-details">
+                        <div className="movie-detail">
+                          <span>Year:</span>
+                          <span>{movie.Year}</span>
+                        </div>
+                        <div className="movie-detail">
+                          <span>Genre:</span>
+                          <span>{movie.Type}</span>
+                        </div>
+                      </div>
+                      <button className="add-button" onClick={() => addToWatchlist(movie)}>+</button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </>
+        )}
+
         {movieData && (
           <div className="movie-card">
             <img src={movieData.Poster} alt={movieData.Title} className="movie-poster" />
             <div className="movie-info">
               <h3 className="movie-title">{movieData.Title}</h3>
-              <p className="movie-year">Year: {movieData.Year}</p>
-              <p className="movie-runtime">Runtime: {movieData.Runtime}</p>
-              <p className="movie-genre">Genre: {movieData.Genre}</p>
+              <div className="movie-details">
+                <div className="movie-detail">
+                  <span>Year:</span>
+                  <span>{movieData.Year}</span>
+                </div>
+                <div className="movie-detail">
+                  <span>Runtime:</span>
+                  <span>{movieData.Runtime}</span>
+                </div>
+                <div className="movie-detail">
+                  <span>Genre:</span>
+                  <span>{movieData.Genre}</span>
+                </div>
+              </div>
               <button className="add-button" onClick={() => addToWatchlist(movieData)}>+</button>
             </div>
           </div>
