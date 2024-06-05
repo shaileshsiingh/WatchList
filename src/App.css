@@ -1,6 +1,7 @@
 .app-container {
   display: flex;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  width: auto;
 }
 
 .sidebar {
