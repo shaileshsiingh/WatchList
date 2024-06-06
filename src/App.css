@@ -1,41 +1,23 @@
 /* App.css */
-
-/* Light Theme */
-:root {
-  --background-color: #ffffff;
-  --text-color: #000000;
-}
-
-/* Dark Theme */
-.dark-mode {
-  --background-color: #121212;
-  --text-color: #ffffff;
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
-}
-
 .app-container {
   display: flex;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   width: auto;
+  transition: background-color 0.3s ease;
 }
 
 .sidebar {
   width: 250px;
-  background-color: #ebf0e6;
+  background-color: #f4f4f4;
   padding: 20px;
   height: fit-content;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .sidebar-title {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #8a601e;
+  color: #684c1e;
 }
 
 .sidebar-menu {
@@ -47,7 +29,7 @@ body {
   margin-bottom: 20px;
 }
 li.sidebar-item {
-  border-bottom: 0.2px solid rgb(100, 75, 92);
+  border-bottom: 0.2px solid rgb(4, 13, 34);
 }
 
 .sidebar-item a {
@@ -71,7 +53,7 @@ li.sidebar-item {
 .movie-card {
   width: 200px;
   border: 1px solid #ce6868;
-  border-radius: 1=px;
+  border-radius: 1px;
   margin: 10px;
 }
 
@@ -87,7 +69,7 @@ li.sidebar-item {
 .movie-title {
   font-size: 1.2rem;
   margin-bottom: 5px;
-  color: rgb(30, 85, 85);
+  color: #272a49;
 }
 
 .movie-rating {
@@ -103,7 +85,7 @@ li.sidebar-item {
   margin-top: 10px;
 }
 
-.user-info{
+.user-info {
   position: relative;
   display: grid;
   margin-top: 280px;
@@ -111,9 +93,51 @@ li.sidebar-item {
   color: #272a49;
 }
 
-.my-list{
+.my-list {
   color: rgb(165, 19, 68);
   padding: 20px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
+.toggle-theme {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-theme:hover {
+  background-color: #0056b3;
+}
+
+.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode .sidebar {
+  background-color: #333;
+}
+
+.dark-mode .sidebar-item a {
+  color: #ffffff;
+}
+
+.dark-mode .sidebar-item.active a {
+  color: #00bfff;
+}
+
+.dark-mode .toggle-theme {
+  background-color: #fff;
+  color: #333;
+}
+
+.dark-mode .toggle-theme:hover {
+  background-color: #ccc;
+}
