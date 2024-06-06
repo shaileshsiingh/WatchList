@@ -1,5 +1,5 @@
 // App.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import MovieSearch from './components/Pages/Home/MovieSearch';
 import WatchList from './components/Pages/Home/WatchList';
@@ -17,7 +17,6 @@ function App() {
 
   const addToWatchlist = (movie) => {
     const updatedList = [...myList, movie];
-    console.log(updatedList);
     localStorage.setItem(`myWatchlist_${userEmail}`, JSON.stringify(updatedList));
     setMyList(updatedList);
   };
@@ -42,14 +41,14 @@ function App() {
   };
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    setIsDarkMode(prevMode => !prevMode);
     document.body.classList.toggle('dark-mode');
   };
 
   return (
     <div className={`app-container ${isDarkMode ? 'dark-mode' : ''}`}>
       {isAuthenticated && (
-        <div className={`sidebar ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className="sidebar">
           <h2 className="sidebar-title">WatchList</h2>
           <ul className="sidebar-menu">
             <li className="sidebar-item">
@@ -66,7 +65,7 @@ function App() {
           </ul>
           <div className="user-info">
             <p>Hello, {userEmail || 'Guest'}</p>
-            <button onClick={handleLogout}>Logout</button>
+            <button className='logout' onClick={handleLogout}>Logout</button>
           </div>
         </div>
       )}

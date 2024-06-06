@@ -89,8 +89,8 @@ li.sidebar-item {
   position: relative;
   display: grid;
   margin-top: 280px;
-  font-weight: bolder;
-  color: #272a49;
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #a3575d;
 }
 
 .my-list {
@@ -142,3 +142,26 @@ li.sidebar-item {
 .dark-mode .toggle-theme:hover {
   background-color: #ccc;
 }
+
+/* App.css or relevant CSS file */
+.logout {
+  background-color: #ff4d4d;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout:hover {
+  background-color: #00d7e6;
+  transform: scale(1.05);
+}
+
+.logout:active {
+  background-color: #3e73af;
+  transform: scale(0.95);
+}
+
