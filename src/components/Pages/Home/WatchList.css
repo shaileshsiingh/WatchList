@@ -35,11 +35,14 @@
 
 .movie-details {
   margin-top: 5px;
-width: 100%;  
+width: 100%; 
+color: rgb(44, 7, 61);
+
 }
 
 .movie-plot {
   font-size: small;
+  color: rgb(44, 7, 61);
 }
 
 .remove-button {

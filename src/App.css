@@ -94,9 +94,10 @@ li.sidebar-item {
 }
 
 .my-list {
-  color: rgb(165, 19, 68);
+  color: rgb(135, 138, 109);
   padding: 20px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: bolder;
 }
 
 .toggle-theme {
